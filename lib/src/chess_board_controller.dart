@@ -13,9 +13,7 @@ class ChessBoardController extends ValueNotifier<Chess> {
   factory ChessBoardController.fromFEN(String fen) =>
       ChessBoardController._(Chess.fromFEN(fen));
 
-  ChessBoardController._(Chess game)
-      : game = game,
-        super(game);
+  ChessBoardController._(this.game) : super(game);
 
   /// Makes move on the board
   void makeMove({required String from, required String to}) {
@@ -40,7 +38,7 @@ class ChessBoardController extends ValueNotifier<Chess> {
   }
 
   void undoMove() {
-    if (game.half_moves == 0) {
+    if (game.history.isEmpty) {
       return;
     }
     game.undo_move();
