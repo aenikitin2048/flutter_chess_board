@@ -128,7 +128,7 @@ class _ChessBoardState extends State<ChessBoard> {
                                       squareName[1] == "1" &&
                                       pieceMoveData.pieceColor ==
                                           ch.Color.BLACK))) {
-                            var val = await _promotionDialog(context);
+                            var val = await _promotionDialog(context, pieceMoveData.pieceColor);
 
                             if (val != null) {
                               widget.controller.makeMoveWithPromotion(
@@ -207,7 +207,7 @@ class _ChessBoardState extends State<ChessBoard> {
   }
 
   /// Show dialog when pawn reaches last square
-  Future<String?> _promotionDialog(BuildContext context) async {
+  Future<String?> _promotionDialog(BuildContext context, ch.Color color) async {
     return showDialog<String>(
       context: context,
       barrierDismissible: false,
@@ -218,25 +218,25 @@ class _ChessBoardState extends State<ChessBoard> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               InkWell(
-                child: WhiteQueen(),
+                child: color == ch.Color.WHITE ? WhiteQueen() : BlackQueen(),
                 onTap: () {
                   Navigator.of(context).pop("q");
                 },
               ),
               InkWell(
-                child: WhiteRook(),
+                child: color == ch.Color.WHITE ? WhiteRook() : BlackRook(),
                 onTap: () {
                   Navigator.of(context).pop("r");
                 },
               ),
               InkWell(
-                child: WhiteBishop(),
+                child: color == ch.Color.WHITE ? WhiteBishop() : BlackBishop(),
                 onTap: () {
                   Navigator.of(context).pop("b");
                 },
               ),
               InkWell(
-                child: WhiteKnight(),
+                child: color == ch.Color.WHITE ? WhiteKnight() : BlackKnight(),
                 onTap: () {
                   Navigator.of(context).pop("n");
                 },
