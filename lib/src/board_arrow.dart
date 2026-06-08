@@ -5,11 +5,13 @@ class BoardArrow {
   final String from;
   final String to;
   final Color color;
+  final double? widthMultiplier;
 
   BoardArrow({
     required this.from,
     required this.to,
     Color? color,
+    this.widthMultiplier,
   })  : assert(from.length == 2 && to.length == 2),
         assert(squareRegex.hasMatch(from)),
         assert(squareRegex.hasMatch(to)),

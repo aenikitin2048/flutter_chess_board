@@ -128,7 +128,8 @@ class _ChessBoardState extends State<ChessBoard> {
                                       squareName[1] == "1" &&
                                       pieceMoveData.pieceColor ==
                                           ch.Color.BLACK))) {
-                            var val = await _promotionDialog(context, pieceMoveData.pieceColor);
+                            var val = await _promotionDialog(
+                                context, pieceMoveData.pieceColor);
 
                             if (val != null) {
                               widget.controller.makeMoveWithPromotion(
@@ -353,25 +354,37 @@ class _ArrowPainter extends CustomPainter {
           ((effectiveColumnEnd + 1) * blockSize) - halfBlockSize,
           ((effectiveRowEnd + 1) * blockSize) - halfBlockSize);
 
-      var yDist = 0.8 * (endOffset.dy - startOffset.dy);
-      var xDist = 0.8 * (endOffset.dx - startOffset.dx);
+      var dx = endOffset.dx - startOffset.dx;
+      var dy = endOffset.dy - startOffset.dy;
+      var arrowLength = sqrt(dx * dx + dy * dy);
+
+      var multiplier = arrow.widthMultiplier ?? 0.5;
+      var headBaseHalfWidth = halfBlockSize * multiplier / 0.8;
+      var headLength = headBaseHalfWidth * 2.5;
+
+      if (headLength > arrowLength * 0.9) {
+        headLength = arrowLength * 0.9;
+      }
+
+      var ratio = (arrowLength - headLength) / arrowLength;
+      var xDist = dx * ratio;
+      var yDist = dy * ratio;
 
       var paint = Paint()
-        ..strokeWidth = halfBlockSize * 0.8
+        ..strokeWidth = halfBlockSize * multiplier
         ..color = arrow.color;
 
       canvas.drawLine(startOffset,
           Offset(startOffset.dx + xDist, startOffset.dy + yDist), paint);
 
-      var slope =
-          (endOffset.dy - startOffset.dy) / (endOffset.dx - startOffset.dx);
+      var slope = dy / dx;
 
       var newLineSlope = -1 / slope;
 
       var points = _getNewPoints(
           Offset(startOffset.dx + xDist, startOffset.dy + yDist),
           newLineSlope,
-          halfBlockSize);
+          headBaseHalfWidth);
       var newPoint1 = points[0];
       var newPoint2 = points[1];
 
