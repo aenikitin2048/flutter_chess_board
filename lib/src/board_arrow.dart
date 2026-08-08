@@ -15,7 +15,7 @@ class BoardArrow {
   })  : assert(from.length == 2 && to.length == 2),
         assert(squareRegex.hasMatch(from)),
         assert(squareRegex.hasMatch(to)),
-        this.color = color ?? Colors.black.withOpacity(0.5);
+        color = color ?? Colors.black.withValues(alpha: 0.5);
 
   @override
   bool operator ==(Object other) {
