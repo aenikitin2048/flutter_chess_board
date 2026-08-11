@@ -63,15 +63,17 @@ class ChessBoardController extends ValueNotifier<Chess> {
   }
 
   /// Loads a PGN
-  void loadPGN(String pgn) {
-    game.load_pgn(pgn);
+  bool loadPGN(String pgn) {
+    final success = game.load_pgn(pgn);
     notifyListeners();
+    return success;
   }
 
-  /// Loads a PGN
-  void loadFen(String fen) {
-    game.load(fen);
+  /// Loads a FEN
+  bool loadFen(String fen) {
+    final success = game.load(fen);
     notifyListeners();
+    return success;
   }
 
   bool isInCheck() {
